@@ -59,9 +59,9 @@ for feature in features_to_plot:
 '''
 
 '''
-# Observing the scatter plots between pairs of features.
-sns.pairplot(data=data[features_to_plot])
-plt.show()
+# Analyze the correlation between features:
+correlation_matrix = df.corr()
+print(correlation_matrix)
 '''
 
 
