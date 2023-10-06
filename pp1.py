@@ -32,10 +32,12 @@ fig, axes = plt.subplots(nrows=3, ncols=3, figsize=(15, 12))
 
 # Define the list of features you want to plot (excluding 'charges' which is the target variable)
 features_to_plot = ['age', 'sex', 'bmi', 'children', 'smoker', 'region_northwest', 'region_southeast', 'region_southwest']
-'''
+
+
 # Set the style for Seaborn plots
 sns.set(style="whitegrid")
 
+'''
 for feature in features_to_plot:
     plt.figure(figsize=(12, 5))
 
@@ -58,13 +60,8 @@ for feature in features_to_plot:
     plt.show()
 '''
 
-'''
-# Analyze the correlation between features:
-correlation_matrix = df.corr()
-print(correlation_matrix)
-'''
 
-
+'''
 # Create scatter plots between 'charges' and each feature
 for feature in features_to_plot:
     plt.figure(figsize=(8, 5))
@@ -73,3 +70,5 @@ for feature in features_to_plot:
     plt.xlabel(feature)
     plt.ylabel('charges')
     plt.show()
+'''
+
