@@ -1,7 +1,6 @@
 import random
-
-import numpy as np
 import pandas as pd
+import numpy as np
 
 # Load the dataset
 data = pd.read_csv("insurance.csv")
@@ -18,6 +17,9 @@ y = data['charges']
 
 # Normalize numerical features (optional but recommended for gradient descent)
 X_numerical = (X_numerical - X_numerical.mean()) / X_numerical.std()
+
+# Add a bias term (intercept) to the features
+X.insert(0, 'bias', 1)
 
 
 # Initialize theta with random values
@@ -44,7 +46,7 @@ def cost_function(theta, X, y):
     return error / (2 * m)
 
 
-# Gradient Descent
+# Gradient Descent for multiple features
 def gradient_descent(theta, X, y, lr):
     m = len(X)
     for iteration in range(num_iterations):
@@ -56,23 +58,30 @@ def gradient_descent(theta, X, y, lr):
         print("Iteration", iteration + 1, "Cost:", cost)
     return theta
 
-'''
-# GRADIENT DESCENT TEST
-# Number of iterations and learning rate
-num_iterations = 1000
-learning_rate = 0.0001
 
-# Add a bias term (intercept) to the features
-X.insert(0, 'bias', 1)
+# Function to add polynomial features
+def add_polynomial_features(X, p):
+    X_poly = X.copy()
+    for feature in X.columns:
+        if feature != 'bias':
+            for degree in range(2, p + 1):
+                X_poly[f"{feature}^{degree}"] = X[feature] ** degree
+    return X_poly
+
+
+# Set the polynomial order
+p = 2  # You can change the polynomial order as needed
+
+# Add polynomial features to the data
+X_poly = add_polynomial_features(X, p)
 
 # Initialize theta with random values
-initial_theta = initialize_theta(len(X.columns))
+initial_theta = initialize_theta(len(X_poly.columns))
 
 # Perform gradient descent
-final_theta = gradient_descent(initial_theta, X, y, learning_rate)
+final_theta = gradient_descent(initial_theta, X_poly, y, learning_rate)
 
 print("Final theta:", final_theta)
-'''
 
 
 # Function to perform k-fold cross-validation
@@ -84,10 +93,10 @@ def k_fold_cross_validation(X, y, k, learning_rate):
     for i in range(k):
         start = i * fold_size
         end = (i + 1) * fold_size
-        X_test = X[start:end]
-        y_test = y[start:end]
-        X_train = pd.concat([X[:start], X[end:]])
-        y_train = pd.concat([y[:start], y[end:]])
+        X_test = X.iloc[start:end]
+        y_test = y.iloc[start:end]
+        X_train = pd.concat([X.iloc[:start], X.iloc[end:]])
+        y_train = pd.concat([y.iloc[:start], y.iloc[end:]])
 
         initial_theta = initialize_theta(len(X_train.columns))
         final_theta = gradient_descent(initial_theta, X_train, y_train, learning_rate)
@@ -99,34 +108,10 @@ def k_fold_cross_validation(X, y, k, learning_rate):
     return mse_scores
 
 
-
-'''
-# Perform k-fold cross-validation TEST
+# Perform k-fold cross-validation
 k = 5  # You can change the number of folds as needed
-mse_scores = k_fold_cross_validation(X, y, k, learning_rate)
+mse_scores = k_fold_cross_validation(X_poly, y, k, learning_rate)
 
 # Calculate and print the average MSE
 average_mse = np.mean(mse_scores)
 print("Average Mean Squared Error (MSE) over", k, "folds:", average_mse)
-'''
-
-'''
-# Analyze the differences in performance between the models obtained for the different folds
-for i, mse in enumerate(mse_scores):
-    print(f"Fold {i + 1} MSE: {mse}")
-    
-# Calculate statistics
-min_mse = np.min(mse_scores)
-max_mse = np.max(mse_scores)
-range_mse = max_mse - min_mse
-mean_mse = np.mean(mse_scores)
-std_mse = np.std(mse_scores)
-
-# Print statistics
-print(f"Minimum MSE: {min_mse}")
-print(f"Maximum MSE: {max_mse}")
-print(f"Range of MSE: {range_mse}")
-print(f"Mean MSE: {mean_mse}")
-print(f"Standard Deviation of MSE: {std_mse}")
-
-'''
