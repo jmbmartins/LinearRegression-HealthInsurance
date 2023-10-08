@@ -98,8 +98,6 @@ def k_fold_cross_validation(X, y, k, learning_rate):
 
     return mse_scores
 
-
-
 '''
 # Perform k-fold cross-validation TEST
 k = 5  # You can change the number of folds as needed
@@ -109,6 +107,7 @@ mse_scores = k_fold_cross_validation(X, y, k, learning_rate)
 average_mse = np.mean(mse_scores)
 print("Average Mean Squared Error (MSE) over", k, "folds:", average_mse)
 '''
+
 
 '''
 # Analyze the differences in performance between the models obtained for the different folds
