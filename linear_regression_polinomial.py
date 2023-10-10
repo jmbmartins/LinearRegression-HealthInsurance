@@ -75,6 +75,8 @@ p = 2  # You can change the polynomial order as needed
 # Add polynomial features to the data
 X_poly = add_polynomial_features(X, p)
 
+'''
+TEST GRADIENT DESCENT
 # Initialize theta with random values
 initial_theta = initialize_theta(len(X_poly.columns))
 
@@ -82,6 +84,7 @@ initial_theta = initialize_theta(len(X_poly.columns))
 final_theta = gradient_descent(initial_theta, X_poly, y, learning_rate)
 
 print("Final theta:", final_theta)
+'''
 
 
 # Function to perform k-fold cross-validation
