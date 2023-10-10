@@ -116,23 +116,3 @@ average_mse = np.mean(mse_scores)
 print("Average Mean Squared Error (MSE) over", k, "folds:", average_mse)
 
 
-'''
-# Analyze the differences in performance between the models obtained for the different folds
-for i, mse in enumerate(mse_scores):
-    print(f"Fold {i + 1} MSE: {mse}")
-    
-# Calculate statistics
-min_mse = np.min(mse_scores)
-max_mse = np.max(mse_scores)
-range_mse = max_mse - min_mse
-mean_mse = np.mean(mse_scores)
-std_mse = np.std(mse_scores)
-
-# Print statistics
-print(f"Minimum MSE: {min_mse}")
-print(f"Maximum MSE: {max_mse}")
-print(f"Range of MSE: {range_mse}")
-print(f"Mean MSE: {mean_mse}")
-print(f"Standard Deviation of MSE: {std_mse}")
-
-'''
