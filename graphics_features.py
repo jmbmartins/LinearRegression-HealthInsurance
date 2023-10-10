@@ -61,7 +61,6 @@ for feature in features_to_plot:
 '''
 
 
-'''
 # Create scatter plots between 'charges' and each feature
 for feature in features_to_plot:
     plt.figure(figsize=(8, 5))
@@ -70,5 +69,5 @@ for feature in features_to_plot:
     plt.xlabel(feature)
     plt.ylabel('charges')
     plt.show()
-'''
+
 
