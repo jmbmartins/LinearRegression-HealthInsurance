@@ -2,6 +2,7 @@ import random
 
 import numpy as np
 import pandas as pd
+import sns
 
 # Load the dataset
 data = pd.read_csv("insurance.csv")
@@ -13,29 +14,32 @@ numerical_features = ['age', 'bmi', 'children']
 # Convert categorical features into one-hot encoding
 X_categorical = pd.get_dummies(data[categorical_features], drop_first=True)
 X_numerical = data[numerical_features]
-X = pd.concat([X_categorical, X_numerical], axis=1)
-y = data['charges']
 
+# Check for missing values
+missing_values = data.isnull().sum()
+print(missing_values)
+
+
+'''
 # Normalize numerical features (optional but recommended for gradient descent)
 X_numerical = (X_numerical - X_numerical.mean()) / X_numerical.std()
+'''
 
 
-# Initialize theta with random values
-def initialize_theta(num_features):
-    return [random.uniform(-1, 1) for _ in range(num_features)]
-
+X = pd.concat([X_categorical, X_numerical], axis=1)
+y = data['charges']
 
 # Number of iterations and learning rate
 num_iterations = 1000
 learning_rate = 0.0001
 
 
-# Define the hypothesis function for multiple features
+# Define the hypothesis function
 def h(theta, x):
     return sum(theta[i] * x[i] for i in range(len(theta)))
 
 
-# Define the cost function for multiple features
+# Define the cost function
 def cost_function(theta, X, y):
     m = len(X)
     error = 0
@@ -56,11 +60,14 @@ def gradient_descent(theta, X, y, lr):
         print("Iteration", iteration + 1, "Cost:", cost)
     return theta
 
+
+# Initialize theta with random values
+def initialize_theta(num_features):
+    return [random.uniform(-1, 1) for _ in range(num_features)]
+
+
 '''
 # GRADIENT DESCENT TEST
-# Number of iterations and learning rate
-num_iterations = 1000
-learning_rate = 0.0001
 
 # Add a bias term (intercept) to the features
 X.insert(0, 'bias', 1)
@@ -98,7 +105,8 @@ def k_fold_cross_validation(X, y, k, learning_rate):
 
     return mse_scores
 
-'''
+
+
 # Perform k-fold cross-validation TEST
 k = 5  # You can change the number of folds as needed
 mse_scores = k_fold_cross_validation(X, y, k, learning_rate)
@@ -106,7 +114,6 @@ mse_scores = k_fold_cross_validation(X, y, k, learning_rate)
 # Calculate and print the average MSE
 average_mse = np.mean(mse_scores)
 print("Average Mean Squared Error (MSE) over", k, "folds:", average_mse)
-'''
 
 
 '''
